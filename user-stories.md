@@ -1,33 +1,33 @@
 Background
-  - As the manager of the group of developers that has to be on duty as they are responsible for their services to be up and running I'd like to automate the creation of the duty shifts plan for the particular month.
-  - There is always a Google sheet containing list of employees in rows and list of days in columns (1-31 (meaning the particular order of the day in a month) (there can be less values then 31 if the month has fewer days))
-    - There's an empty cell after the last name of the employee in the column with the employee names
-  - There is also a list of czech names of days in the week under the particular day number
-    - Crucial is identification of the weekends and public holidays as they are paid with the special surcharge. The values "so" and "ne" identifies saturday and sunday respectively, what constitutes a weekend. Value "sv" is used there if the particular non-weekend date is a public-holiday
-  - employees always fills the Google sheet before the particular month starts with their availability in the following way:
-    - the following values are there at the intersection of the employee name and the day number with the following meaning:
-      - "-" - I can't be on duty
-      - "*" - I can be on duty, but only if there's no other option
-      - "?" - I don't mind if I'm on duty
-      - "!" - I really want to be on duty
-    - if there's 1 (meaning real number 1) as the value at the particular intersection, it means the duty is already assigned to the particular employee
-    - also other values can be there, but those values plays no role for the automatic distribution of duties
-    - I want to have basic configuration of rows and columns number in constants in the script, so they can be changed easily at one place
-      - the initial setting should be:
-        - row number with days numbers: 7
-        - row number with czech days of week: 8
-        - row number where employyes names start: 9
-        - column number with the employee names: 2
-        - column number with the first day in the month: 3
+  - As the manager of a group of developers who are on duty and responsible for keeping their services up and running, I want to automate the creation of the duty shift schedule for a given month.
+  - There is always a Google Sheet containing a list of employees in rows and a list of days in columns (1–31, representing the day's position in the month; months with fewer than 31 days will have fewer columns).
+    - The column containing employee names has an empty cell below the last employee's name.
+  - Below each day number there is a row containing the Czech name of the day of the week.
+    - Identifying weekends and public holidays is critical, as they are compensated with a special surcharge. The values "so" and "ne" identify Saturday and Sunday respectively, constituting a weekend. The value "sv" is used when a non-weekend date is a public holiday.
+  - Before the month begins, employees fill in the Google Sheet with their availability using the following values at the intersection of their name and the day number:
+    - "-" — I cannot be on duty
+    - "*" — I can be on duty, but only as a last resort
+    - "?" — I don't mind being on duty
+    - "!" — I really want to be on duty
+    - If the value at a given intersection is 1 (the number), the duty has already been manually assigned to that employee.
+    - Other values may be present, but they play no role in the automatic duty distribution.
+  - The basic row and column configuration should be stored as constants in the script so they can be changed in one place.
+    - Default values:
+      - Row with day numbers: 7
+      - Row with Czech day-of-week names: 8
+      - First row with employee names: 9
+      - Column with employee names: 2
+      - Column for the first day of the month: 3
+
 Epics:
   - E-1
-    - As the manager I want to have the ability to run a Google Sheet script taking the values in the google sheet as the inputs for the automatic engine that defines the assignment of the employees for the duty for particular days in a month
-    - The automatic engine will follow the rules defined in the subsequent user stories:
+    - As the manager, I want to be able to run a Google Apps Script that reads the Google Sheet and uses its values as input for an automatic engine that assigns employees to duty shifts for each day of the month.
+    - The automatic engine follows the rules defined in the user stories below.
     - User stories:
       - E-1-US-1:
-        - There's never more than one employee assigned to the duty for the particular day by the work of the automatic engine (it means it can be set manually in the sheet, but it will never be as an output of the work of the automatic engine (if there's one or even more employees assigned to the duty for the particular day before the automatic engine runs, the automatic engine doesn't add there any other employee))
-        - Automatic engine will go through (once the script starts) the google sheet and assignes the duty (replace the value in the particular cell by the value 1) to the employee who wants to be on duty
-        - There can be always more than 1 employee who wants to be on duty for the particular day. The automatic engine will be fair in the way it will take into consideration the total number of days the particular employees set as days where they want to be on duty. The more days an employee wants to be on duty, the more duties are really assigned to the employee finally, if possible
-          - example:
-            - if the employee "filip" wants to be on duty 10 days, and employee "brut" wants to be on duty just 5 days, the ratio of the automatic assignment should respect this ratio of the willingnes - meaning "filip" should have approximately twice as much assignments to the duty than "brut"
+        - The automatic engine never assigns more than one employee to duty for a given day. Duty can be assigned manually in the sheet to multiple employees, but the engine will never add another assignment on top of an existing one — if one or more employees are already assigned to a day before the engine runs, the engine skips that day.
+        - When the script runs, the automatic engine goes through the sheet and assigns duty (by replacing the cell value with 1) to the employee who wants to be on duty.
+        - When multiple employees want to be on duty on the same day, the engine distributes assignments fairly by taking into account the total number of days each employee has expressed willingness to work. The more days an employee is willing to work, the more duty assignments they should receive — proportionally, where possible.
+          - Example:
+            - If employee "filip" is willing to work 10 days and employee "brut" is willing to work only 5 days, the engine should assign approximately twice as many duty shifts to "filip" as to "brut", reflecting their respective willingness ratio.
 
