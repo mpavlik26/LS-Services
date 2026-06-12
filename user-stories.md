@@ -3,7 +3,7 @@ Background
   - There is always a Google Sheet containing a list of employees in rows and a list of days in columns (1–31, representing the day's position in the month; months with fewer than 31 days will have fewer columns).
     - The column containing employee names has an empty cell below the last employee's name.
   - Below each day number there is a row containing the Czech name of the day of the week.
-    - Identifying weekends and public holidays is critical, as they are compensated with a special surcharge. The values "so" and "ne" identify Saturday and Sunday respectively, constituting a weekend. The value "sv" is used when a non-weekend date is a public holiday. The value "pá" identifies Friday, that's also important in some stories and rules
+    - Identifying weekends and public holidays is critical, as they are compensated with a special surcharge. The values "so" and "ne" identify Saturday and Sunday respectively, constituting a weekend. The value "sv" is used when a non-weekend date is a public holiday. The value "pá" identifies Friday, which is also significant in some stories and rules.
   - Before the month begins, employees fill in the Google Sheet with their availability using the following values at the intersection of their name and the day number:
     - "-" — I cannot be on duty
     - "*" — I can be on duty, but only as a last resort
@@ -22,30 +22,30 @@ Background
 Epics:
   - E-1
     - As the manager, I want to be able to manually run a Google Apps Script that reads the Google Sheet and uses its values as input for an automatic engine that assigns employees to duty shifts for each day of the month.
-    - The automatic engine follows the rules defined in the following user stories
-    - Rules priority is defined by the priroity number. Higher priority numbers means higher priority
-    - The automatic engine respects the following rules (other will be added always with the appropriate priority number also in consequent user stories of this EPIC)
+    - The automatic engine follows the rules defined in the user stories below.
+    - Rule priority is defined by the priority number. A higher number means higher priority.
+    - The automatic engine respects the following rules (additional rules will always be added with an appropriate priority number in subsequent user stories of this epic).
     - User stories:
       - E-1-US-1:
-        - the automatic engine goes through the sheet and assigns duty (by replacing the cell value with 1) to the particular employee for all days in the month, if it's possible
-        - rules:
+        - The automatic engine goes through the sheet and assigns duty (by replacing the cell value with 1) to the appropriate employee for all days in the month, where possible.
+        - Rules:
           - R-ASSIGN-JUST-ONE [priority number: 10000]:
-            - never assign more than one employee to duty for a given day. Duty can be assigned manually in the sheet to multiple employees, but the engine will never add another assignment on top of an existing one — if one or more employees are already assigned to a day before the engine runs, the engine skips that day
-          - R-AT-LEAST-ONE-DUTY-PER-MONTH [priority number: 9900]
-            - for having a contact with the platform it's necessary every member of the team should have at least one duty in a month
-          - R-WANTS [priority number: 9800]
-            - employee who wants to be on duty for the particular day should be assigned to it
+            - Never assign more than one employee to duty for a given day. Duty can be assigned manually in the sheet to multiple employees, but the engine will never add another assignment on top of an existing one — if one or more employees are already assigned to a day before the engine runs, the engine skips that day.
+          - R-AT-LEAST-ONE-DUTY-PER-MONTH [priority number: 9900]:
+            - To maintain familiarity with the platform, every team member must have at least one duty shift per month.
+          - R-WANTS [priority number: 9800]:
+            - An employee who wants to be on duty on a given day should be assigned to it.
             - When multiple employees want to be on duty on the same day, the engine distributes assignments fairly by taking into account the total number of days each employee has expressed willingness to work. The more days an employee is willing to work, the more duty assignments they should receive — proportionally, where possible.
             - Example:
               - If employee "filip" is willing to work 10 days and employee "brut" is willing to work only 5 days, the engine should assign approximately twice as many duty shifts to "filip" as to "brut", reflecting their respective willingness ratio.
-          - R-DO-NOT-MIND-OVER-LAST-RESORT [priority number: 9700]
-            - preffer assignment of a person who don't mind do be on duty over the person who can be on duty, but it's his/her last resort
-          - R-FAIR-ASSIGNMENT [priority number: 9600]
-            - final assignment of the duty will be equal among the employees (or close to it) if not counting the duties on days where the particular employee says explicitly he wants to be on duty (and the employee is really assigned to the duty). However it's still not possible to assign a duty to the employee unless he/she didn't enter a value reflecting his/her ability to be on duty. 
-          - R-FAIR-WEEKEND-ASSIGNMENTS [priority number: 9500]
-            - the amount of weekend and public holidays duties will be equal among the employees (or close to it). Again not counting the explicitly wanted days for this case.
-          - R-UNINTERRUPTED-WEEKENDS [priority number: 9400]
-            - preffer assignment of the same person to the duty during the weekend to prevent the "broken" weekend for more than 1 employee
-            - if it's possible to add to the weekend duty also Friday duty, do it as Friday's evening's are often taken as weekend
+          - R-DO-NOT-MIND-OVER-LAST-RESORT [priority number: 9700]:
+            - Prefer assigning an employee who doesn't mind being on duty over one who can do it only as a last resort.
+          - R-FAIR-ASSIGNMENT [priority number: 9600]:
+            - The total duty assignments should be equal (or as close to equal as possible) across all employees, excluding days where an employee explicitly wanted to be on duty and was assigned. An employee can only be assigned duty on days where they have entered a value indicating availability.
+          - R-FAIR-WEEKEND-ASSIGNMENTS [priority number: 9500]:
+            - The number of weekend and public holiday duty assignments should be equal (or as close to equal as possible) across all employees, again excluding explicitly wanted days.
+          - R-UNINTERRUPTED-WEEKENDS [priority number: 9400]:
+            - Prefer assigning the same employee to all days of a given weekend to avoid splitting the weekend across multiple employees.
+            - If possible, extend the weekend assignment to include Friday, as Friday evenings are often treated as part of the weekend.
           
 
